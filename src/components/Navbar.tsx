@@ -16,9 +16,9 @@ export default function Navbar() {
       setScrolled(window.scrollY > 40)
       const current = tr.links
         .map(l => document.getElementById(l.toLowerCase() === 'sobre' ? 'about'
-                                        : l.toLowerCase() === 'projetos' ? 'projects'
-                                        : l.toLowerCase() === 'contato' ? 'contact'
-                                        : l.toLowerCase()))
+        : l.toLowerCase() === 'projetos' ? 'projects'
+        : l.toLowerCase() === 'contato' ? 'contact'
+        : l.toLowerCase()))
         .findLast(s => s && s.getBoundingClientRect().top <= 100)
       setActive(current?.id ?? '')
     }
@@ -28,6 +28,25 @@ export default function Navbar() {
 
   const sectionId = (label: string) =>
     ({ sobre: 'about', projetos: 'projects', contato: 'contact' }[label.toLowerCase()] ?? label.toLowerCase())
+
+  const handleDownload = async () => {
+    try {
+      const response = await fetch('/cv.pdf')
+      if (!response.ok) throw new Error('File not found')
+      const blob = await response.blob()
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = 'Curriculo_Freitas.pdf'
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      URL.revokeObjectURL(url)
+    } catch (error) {
+      console.error('Download failed:', error)
+      alert(lang === 'en' ? 'CV file not found in public folder! (Place cv.pdf in /public)' : 'Arquivo do CV não encontrado na pasta public! (Coloque o cv.pdf em /public)')
+    }
+  }
 
   return (
     <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${scrolled ? 'nav-bg' : ''}`}>
@@ -50,7 +69,7 @@ export default function Navbar() {
         </ul>
 
         <div className="flex items-center gap-2">
-          {/* Lang toggle */}
+          {/* Lang */}
           <button onClick={toggleLang}
             className="font-mono text-xs px-2.5 py-1.5 rounded-lg border transition-all duration-200"
             style={{ borderColor: 'var(--border)', color: 'var(--subtle)' }}
@@ -58,7 +77,7 @@ export default function Navbar() {
             {lang === 'en' ? 'PT' : 'EN'}
           </button>
 
-          {/* Theme toggle */}
+          {/* Theme */}
           <button onClick={toggleTheme}
             className="p-2 rounded-lg border transition-all duration-200"
             style={{ borderColor: 'var(--border)', color: 'var(--subtle)' }}
@@ -75,13 +94,15 @@ export default function Navbar() {
               </svg>
             )}
           </button>
-
-          {/* Hire me */}
-          <a href="#contact"
-             className="hidden md:block text-xs font-medium px-4 py-2 rounded-lg border transition-all duration-200"
-             style={{ borderColor: 'var(--border)', color: 'var(--secondary)' }}>
-            {tr.hire}
-          </a>
+          {/* CV */}
+          <button onClick={handleDownload}
+            className="hidden md:flex items-center gap-2 text-xs font-mono px-3 py-1.5 rounded-lg border transition-all duration-200 hover:opacity-80"
+            style={{ borderColor: 'var(--border)', color: 'var(--subtle)' }}>
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+            {tr.downloadCV}
+          </button>
 
           {/* Hamburger */}
           <button className="md:hidden p-1 transition-colors" onClick={() => setOpen(!open)}
@@ -103,6 +124,14 @@ export default function Navbar() {
                style={{ color: 'var(--subtle)' }}
                className="text-sm transition-colors hover:opacity-80">{l}</a>
           ))}
+          <button onClick={() => { handleDownload(); setOpen(false); }}
+            className="flex items-center gap-2 text-sm font-mono mt-2"
+            style={{ color: 'var(--secondary)' }}>
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+            {tr.downloadCV}
+          </button>
         </div>
       )}
     </nav>

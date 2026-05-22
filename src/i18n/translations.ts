@@ -3,6 +3,7 @@ export const t = {
     nav: {
       links: ['About', 'Projects', 'Skills', 'Contact'],
       hire: 'Hire me',
+      downloadCV: 'Download CV',
     },
     hero: {
       available: 'Available for work',
@@ -29,6 +30,13 @@ export const t = {
     projects: {
       label: 'Projects',
       items: [
+        {
+          title: 'Glimpse Launcher',
+          desc: 'An ultra-light and minimalist search launcher, focused on absolute performance and low resource consumption for Windows 11.',
+          tags: ['Rust'],
+          year: '2026',
+          href: 'https://github.com/devfreitas/GlimpseLauncher',
+        },
         {
           title: 'Hospital das Clínicas',
           desc: 'Web platform for managing hospital appointments, patient records, and internal workflows. Built with a focus on accessibility and performance.',
@@ -95,6 +103,7 @@ export const t = {
     nav: {
       links: ['Sobre', 'Projetos', 'Skills', 'Contato'],
       hire: 'Contrate-me',
+      downloadCV: 'Baixar CV',
     },
     hero: {
       available: 'Disponível para trabalho',
@@ -121,6 +130,13 @@ export const t = {
     projects: {
       label: 'Projetos',
       items: [
+        {
+          title: 'Glimpse Launcher',
+          desc: 'Um lançador de buscas ultraleve e minimalista, focado em performance absoluta e baixo consumo de recursos para Windows 11.',
+          tags: ['Rust'],
+          year: '2026',
+          href: 'https://github.com/devfreitas/GlimpseLauncher',
+        },
         {
           title: 'Hospital das Clínicas',
           desc: 'Plataforma web para gerenciamento de consultas, prontuários e fluxos internos hospitalares. Desenvolvida com foco em acessibilidade e performance.',
